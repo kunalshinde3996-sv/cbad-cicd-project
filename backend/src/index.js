@@ -8,7 +8,6 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// In-memory tasks (no DB needed for demo)
 let tasks = [];
 let idCounter = 1;
 
@@ -38,6 +37,10 @@ app.delete('/tasks/:id', (req, res) => {
   res.json({ message: 'Deleted' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
