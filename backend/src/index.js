@@ -31,6 +31,17 @@ app.post('/tasks', (req, res) => {
   res.json({ task });
 });
 
+app.patch('/tasks/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const task = tasks.find(t => t.id === id);
+  if (!task) return res.status(404).json({ error: 'Task not found' });
+  if (typeof req.body.done !== 'boolean') {
+    return res.status(400).json({ error: 'done (boolean) required' });
+  }
+  task.done = req.body.done;
+  res.json({ task });
+});
+
 app.delete('/tasks/:id', (req, res) => {
   const id = parseInt(req.params.id);
   tasks = tasks.filter(t => t.id !== id);
